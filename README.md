@@ -4,7 +4,7 @@
 
 ## Installation
 
-just clone and run script while passing the --file arg ...
+just clone and run script while passing the `--file` arg ...
 
 ```bash
 git clone https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer.git
@@ -12,14 +12,15 @@ cd Rise-of-Kingdoms-Linux-Installer
 bash install.sh --file /path/to/rok_installer.exe
 ```
 or
-Dont forget to mention the instraller.exe location!!
+**Dont forget to mention the instraller.exe location!!**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/blob/main/rok_installer.sh | bash -s -- --file ~/Downloads/rok_installer.exe
+curl -fsSL https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/refs/heads/main/rok_installer.sh | bash -s -- --file ~/Downloads/rok_installer.exe
 ```
 
 eg..
-`bash rok_installer.sh --file /home/user/Downloads/rokpc_random.exe`
+`bash rok_installer.sh --file /home/user/Downloads/rokpc_random.exe` <br>
 `bash rok_installer.sh --file ~/Downloads/rokpc_random.exe`
+<br>
 After installation, Rise of Kingdoms will appear in your application launcher.
 
 > [!NOTE]
