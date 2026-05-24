@@ -73,7 +73,7 @@ make_shortcuts(){
     echo "Icon=$ICON_LOC" >> rok.desktop     
     echo "Categories=Game" >> rok.desktop
     mv rok.desktop "$HOME"/.local/share/applications
-    mv icon.png "$WINE_PREFIX"
+    mv "$ICON_LOC" "$WINE_PREFIX"
     echo "shortcut created"     
 }
 
@@ -109,7 +109,9 @@ if [ "$1" == "--file" ];then
     LAUNCHER_LOC="$WINE_PREFIX/drive_c/Program Files (x86)/Rise of Kingdoms/launcher.exe"
     make_launcher_script
 
-    ICON_LOC=$WINE_PREFIX/icon.png
+    ICON_URL="https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/refs/heads/main/asset/icon.png"
+    curl -L -O --output-dir "$TEMP_FOLDER" "$ICON_URL"
+    ICON_LOC=$TEMP_FOLDER/icon.png
     make_shortcuts
 
     delete_temp
