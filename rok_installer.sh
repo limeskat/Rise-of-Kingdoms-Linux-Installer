@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 make_directories(){
     mkdir -p "$HOME/Games/RiseofKingdoms/wine_bin" "$HOME/Games/RiseofKingdoms/temp"
@@ -22,7 +23,7 @@ install_wine_prefix(){
     echo "Installing wine binaries"
     WINE_BIN_NAME=$(grep -m 1 'file' $WINE_JSON | grep -oE  '": ?"[^"]*"' | sed 's/": *"//; s/"$//')    
     tar -xf "$TEMP_FOLDER/$WINE_BIN_NAME" --strip-components=1 -C "$WIN_BIN_FOLDER"
-    WINEPREFIX="$WINE_PREFIX" "$WIN_BIN_FOLDER"/bin/wineboot --init
+    WINEDEBUG=-all,-fixme,+err WINEPREFIX="$WINE_PREFIX" "$WIN_BIN_FOLDER"/bin/wineboot --init
     echo "wine prefix installed"
 }
 
@@ -50,7 +51,7 @@ install_dxvk(){
 }
 
 install_rok(){
-    WINEPREFIX="$WINE_PREFIX" $WINE_BIN "$ROK_EXE"
+    WINEDEBUG=-all,-fixme,+err WINEPREFIX="$WINE_PREFIX" $WINE_BIN "$ROK_EXE"
     echo "installed"
 }
 
@@ -73,7 +74,6 @@ make_shortcuts(){
     echo "Icon=$ICON_LOC" >> rok.desktop     
     echo "Categories=Game" >> rok.desktop
     mv rok.desktop "$HOME"/.local/share/applications
-    mv "$ICON_LOC" "$WINE_PREFIX"
     echo "shortcut created"     
 }
 
@@ -111,16 +111,23 @@ if [ "$1" == "--file" ];then
 
     ICON_URL="https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/refs/heads/main/asset/icon.png"
     curl -L -O --output-dir "$TEMP_FOLDER" "$ICON_URL"
-    ICON_LOC=$TEMP_FOLDER/icon.png
+    mv $TEMP_FOLDER/icon.png $WINE_PREFIX
+    ICON_LOC=$WINE_PREFIX/icon.png
     make_shortcuts
 
     delete_temp
 elif [ "$1" == "--help" ];then
-    echo "--file [FILE_LOCATION]"
-    echo "eg. --file /home/user/Downloads/rokpc_ff5a7e4128320b4b392ab0f84ab433ca.exe"    
+    echo "Usage: bash rok-setup.sh [OPTION] [FILE]"
+    echo ""
+    echo "  --file [FILE]   Path to the Rise of Kingdoms Windows installer .exe"
+    echo "  --help          Show this help message"
+    echo "  --version       Show script version"
+    echo ""
+    echo "Example:"
+    echo "  bash rok-setup.sh --file ~/Downloads/rokpc_ff5a7e4128320b4b392ab0f84ab433ca.exe"  
 elif [ "$1" == "--version" ];then
-    echo "v1.0"
+    echo "v1.1"
 else
-    echo "--file [FILE_LOCATION]"
-    echo "eg. --file /home/user/Downloads/rokpc_ff5a7e4128320b4b392ab0f84ab433ca.exe"
+    echo "Usage: bash rok-setup.sh --file /path/to/rok_installer.exe"
+    echo "Run 'bash rok-setup.sh --help' for more information."
 fi        
