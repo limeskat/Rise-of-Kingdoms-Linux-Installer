@@ -1,6 +1,6 @@
 # Rise of Kingdoms - Linux Installer Script
 
-**A simple bash script to install and run the PC version of Rise of Kingdoms on Linux using spritz-wine-cachyos-wow64 and DXVK**
+**A simple bash script to install and run the PC version of Rise of Kingdoms on Linux using Wine (Soda by default) and DXVK**
 
 ## Prerequisites
  
@@ -35,6 +35,8 @@ bash rok_installer.sh [OPTION] [FILE]
 
 `--file [FILE]` — Path to the Rise of Kingdoms Windows installer `.exe`. Downloads Wine and DXVK, sets up a Wine prefix, runs the installer, and creates a desktop shortcut.
 
+`--runner [NAME]` — Which Wine build to use: `soda` (default) or `cachyos`. See [If RoK still freezes at 6%](#if-rok-still-freezes-at-6-or-shows-a-black-screen) below.
+
 `--help` — displays available option.
 
 `--version` — Show script version.
@@ -50,18 +52,18 @@ If you tried running the game manually through default Wine or Proton, you likel
 
 This issue is widely attributed to the game's login integration and Terms of Service (ToS) prompts, which rely on an embedded WebView container that standard Wine setups often fail to render. When this background window fails to initialize, the game engine hangs or visually glitches into a black screen.
 
-This installer automatically configures a patched **spritz-wine-cachyos-wow64** build that properly handles these embedded web elements, allowing you to seamlessly bypass the 6% hang and log into your account.
+By default, this installer uses **Soda** - [bottlesdevs/wine](https://github.com/bottlesdevs/wine)'s build (Valve's Wine + Staging/Proton patches), the same runner [Bottles](https://usebottles.com/) ships. This has been confirmed to fix the issue for a user where both Proton and the older `spritz-wine-cachyos-wow64` runner failed.
+
+### If RoK still freezes at 6% or shows a black screen
+1. Try the older runner instead, in case your specific setup behaves better with it:
+   ```bash
+   bash rok_installer.sh --file /path/to/rok_installer.exe --runner cachyos
+   ```
+2. If neither runner fixes it, please open an issue with your distro, desktop environment, session type (X11/Wayland), and GPU/driver — that helps narrow down the actual cause.
 
 ## Supports All Major Linux Distributions
  
 Tested on Arch Linux.The script self-contains its Wine and DXVK dependencies inside the local prefix, it should function on any modern Linux distribution (including Ubuntu, Fedora, Debian, Mint, and Pop!_OS) as long as `curl` and `tar` are available.
-
-## Credits & Upstream Sources
-
-The script dynamically fetches the latest verified spritz-wine-cachyos-wow64 and DXVK versions directly from [**An Anime Team's game-integrations**](https://github.com/an-anime-team/game-integrations/tree/master/packages/components)  repository:
-
-* **Wine Source:** [spritz-wine-cachyos.json](https://raw.githubusercontent.com/an-anime-team/game-integrations/refs/heads/master/packages/components/wine/spritz-wine-cachyos.json)
-* **DXVK Source:** [dxvk.json](https://raw.githubusercontent.com/an-anime-team/game-integrations/refs/heads/master/packages/components/dxvk/dxvk.json)
 
 ## License
 This project is released under the [GNU General Public License v3.0](LICENSE).
