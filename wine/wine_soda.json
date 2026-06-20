@@ -1,0 +1,11 @@
+[
+  {
+    "name": "soda-9.0-1",
+    "title": "Soda 9.0-1 (bottlesdevs/wine)",
+    "url": "https://github.com/bottlesdevs/wine/releases/download/soda-9.0-1/soda-9.0-1-x86_64.tar.xz",
+    "file": "soda-9.0-1-x86_64.tar.xz",
+    "features": {
+      "binary": "bin/wine"
+    }
+  }
+]
