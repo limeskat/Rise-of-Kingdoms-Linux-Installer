@@ -21,10 +21,6 @@ bash rok_installer.sh --file /path/to/rok_installer.exe
 ```bash
 curl -fsSL https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/refs/heads/main/rok_installer.sh | bash -s -- --file /path/to/rok_installer.exe
 ```
- 
-> [!NOTE]
-> It is better to install just the launcher, then exit and let it download the game files on first launch rather than waiting through the full download during setup.
- 
 After installation, **Rise of Kingdoms** will appear in your application launcher.
 
 ## Usage
@@ -35,7 +31,7 @@ bash rok_installer.sh [OPTION] [FILE]
 
 `--file [FILE]` — Path to the Rise of Kingdoms Windows installer `.exe`. Downloads Wine and DXVK, sets up a Wine prefix, runs the installer, and creates a desktop shortcut.
 
-`--runner [NAME]` — Which Wine build to use: `soda` (default) or `cachyos`. See [If RoK still freezes at 6%](#if-rok-still-freezes-at-6-or-shows-a-black-screen) below.
+`--runner [NAME]` — Which Wine build to use: `soda` or `cachyos` (default). See [If RoK still freezes at 6%](#if-rok-still-freezes-at-6-or-shows-a-black-screen) below.
 
 `--help` — displays available option.
 
@@ -48,11 +44,9 @@ bash rok_installer.sh --file ~/Downloads/rokpc_ff5a7e4128320b4b392ab0f84ab433ca.
 
 ## Fixes: Rise of Kingdoms Stuck at 6% or Black Screen on Wine
  
-If you tried running the game manually through default Wine or Proton, you likely encountered a freeze at **6% loading** or a permanent **black screen**. 
+If you tried running the game manually through default Wine or Proton, you likely encountered a freeze at **6% loading** or a permanent **black screen**.
 
-This issue is widely attributed to the game's login integration and Terms of Service (ToS) prompts, which rely on an embedded WebView container that standard Wine setups often fail to render. When this background window fails to initialize, the game engine hangs or visually glitches into a black screen.
-
-By default, this installer uses **Soda** - [bottlesdevs/wine](https://github.com/bottlesdevs/wine)'s build (Valve's Wine + Staging/Proton patches), the same runner [Bottles](https://usebottles.com/) ships. This has been confirmed to fix the issue for a user where both Proton and the older `spritz-wine-cachyos-wow64` runner failed.
+This installer uses Spritz wine [NelloKudo/spritz-wine](https://github.com/NelloKudo/spritz-wine) and**Soda** - [bottlesdevs/wine](https://github.com/bottlesdevs/wine)'s build (Valve's Wine + Staging/Proton patches), the same runner [Bottles](https://usebottles.com/) ships. Soda has been confirmed to fix the issue for a user where both Proton and the older `spritz-wine-cachyos-wow64` runner failed.
 
 ### If RoK still freezes at 6% or shows a black screen
 1. Try the older runner instead, in case your specific setup behaves better with it:

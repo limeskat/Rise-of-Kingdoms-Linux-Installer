@@ -102,7 +102,7 @@ delete_temp(){
     echo "installation complete"
 }
 
-RUNNER="soda"
+RUNNER="cachyos"
 ACTION=""
 ROK_EXE=""
 
@@ -147,11 +147,11 @@ if [ "$ACTION" == "install" ];then
     case "$RUNNER" in
         cachyos)
             WINE_SOURCE="$WINE_SOURCE_CACHYOS"
-            echo "Using runner: spritz-wine-cachyos-wow64"
+            echo "Using runner: spritz-wine-cachyos-wow64 - default"
             ;;
         soda)
             WINE_SOURCE="$WINE_SOURCE_SODA"
-            echo "Using runner: Soda (bottlesdevs/wine) - default"
+            echo "Using runner: Soda (bottlesdevs/wine)"
             ;;
         *)
             echo "ERROR: unknown runner '$RUNNER' (expected: soda or cachyos)" >&2
@@ -193,14 +193,14 @@ elif [ "$ACTION" == "help" ];then
     echo "Usage: bash rok_installer.sh --file [FILE] [--runner soda|cachyos]"
     echo ""
     echo "  --file [FILE]     Path to the Rise of Kingdoms Windows installer .exe"
-    echo "  --runner [NAME]   Wine build to use: soda (default) or cachyos"
+    echo "  --runner [NAME]   Wine build to use: soda or cachyos(default) "
     echo "  --help            Show this help message"
     echo "  --version         Show script version"
     echo ""
     echo "Example:"
     echo "  bash rok_installer.sh --file ~/Downloads/rokpc_ff5a7e4128320b4b392ab0f84ab433ca.exe"
     echo ""
-    echo "  # To use the older spritz-wine-cachyos-wow64 runner instead:"
+    echo "To use the older spritz-wine-cachyos-wow64 runner instead:"
     echo "  bash rok_installer.sh --file ~/Downloads/rokpc_ff5a7e4128320b4b392ab0f84ab433ca.exe --runner cachyos"
 elif [ "$ACTION" == "version" ];then
     echo "v1.2"
