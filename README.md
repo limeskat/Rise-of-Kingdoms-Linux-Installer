@@ -1,6 +1,6 @@
 # Rise of Kingdoms - Linux Installer Script
 
-**A simple bash script to install and run the PC version of Rise of Kingdoms on Linux using Wine (Soda by default) and DXVK**
+**A simple bash script to install and run the PC version of Rise of Kingdoms on Linux using Wine and DXVK**
 
 ## Prerequisites
  
@@ -46,21 +46,26 @@ bash rok_installer.sh --file ~/Downloads/rokpc_ff5a7e4128320b4b392ab0f84ab433ca.
  
 If you tried running the game manually through default Wine or Proton, you likely encountered a freeze at **6% loading** or a permanent **black screen**.
 
-This installer uses Spritz wine [NelloKudo/spritz-wine](https://github.com/NelloKudo/spritz-wine) and**Soda** - [bottlesdevs/wine](https://github.com/bottlesdevs/wine)'s build (Valve's Wine + Staging/Proton patches), the same runner [Bottles](https://usebottles.com/) ships. Soda has been confirmed to fix the issue for a user where both Proton and the older `spritz-wine-cachyos-wow64` runner failed.
+The exact root cause is still being looked into, but it consistently occurs when the game tries to display its login / Terms of Service overlay during initialization.
 
 ### If RoK still freezes at 6% or shows a black screen
-1. Try the older runner instead, in case your specific setup behaves better with it:
+1. Try the other runner instead, in case your specific setup behaves better with it:
    ```bash
-   bash rok_installer.sh --file /path/to/rok_installer.exe --runner cachyos
+   bash rok_installer.sh --file /path/to/rok_installer.exe --runner soda
    ```
-2. If neither runner fixes it, please open an issue with your distro, desktop environment, session type (X11/Wayland), and GPU/driver — that helps narrow down the actual cause.
+   `cachyos` - spritz-wine-cachyos-wow64 [NelloKudo/spritz-wine](https://github.com/NelloKudo/spritz-wine) [default]
+   
+   `soda` - Soda 9.0-1 [bottlesdevs/wine](https://github.com/bottlesdevs/wine)
+   
+2. If you are using NVIDIA + Wayland try switching to X11 [[more details](https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer/issues/1)]
+3. If above solution does not work , please open an issue with your distro, desktop environment, session type (X11/Wayland), and GPU/driver.
 
-## Supports All Major Linux Distributions
+## Compatibilty
  
-Tested on Arch Linux.The script self-contains its Wine and DXVK dependencies inside the local prefix, it should function on any modern Linux distribution (including Ubuntu, Fedora, Debian, Mint, and Pop!_OS) as long as `curl` and `tar` are available.
+The script self-contains its Wine and DXVK dependencies inside the local prefix, it should function on any modern Linux distribution (including Ubuntu, Fedora, Debian, Mint, and Pop!_OS) as long as `curl` and `tar` are available.
 
 ## License
 This project is released under the [GNU General Public License v3.0](LICENSE).
 
 ---
-If this script helped you get the game installed and run properly, please drop a ⭐ to help others in need find it!
+If this helped you get the game running, a ⭐ helps others find the project.
