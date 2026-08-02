@@ -65,7 +65,7 @@ The exact root cause is still being looked into, but it consistently occurs when
    
    `soda` - Soda 9.0-1 [bottlesdevs/wine](https://github.com/bottlesdevs/wine)
    
-2. If you are using NVIDIA + Wayland try switching to X11 [[more details](https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer/issues/1)]
+2. If you are using NVIDIA + Wayland try switching to X11 [[more details](https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer/issues/1)]. On distros where switching to X11 is not supported (e.g., Nobara), using `--runner soda` has been reported to fix the issue [[Reddit reference](https://www.reddit.com/r/RiseofKingdoms/comments/1tm7pjy/comment/oss3dcw/)].
 3. If above solution does not work , please open an issue with your distro, desktop environment, session type (X11/Wayland), and GPU/driver.
 
 ## Compatibilty
