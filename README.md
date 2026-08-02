@@ -6,7 +6,6 @@
  
 - `curl`
 - `tar`
-- A downloaded Rise of Kingdoms Windows installer `.exe` ([get it from the official site](https://rok.lilith.com/))
   
 ## How to Install Rise of Kingdoms on Linux
  
@@ -14,32 +13,39 @@
 ```bash
 git clone https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer.git
 cd Rise-of-Kingdoms-Linux-Installer
-bash rok_installer.sh --file /path/to/rok_installer.exe
+bash rok_installer.sh
 ```
  
 **Option 2 - Run directly:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/refs/heads/main/rok_installer.sh | bash -s -- --file /path/to/rok_installer.exe
+curl -fsSL https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/refs/heads/main/rok_installer.sh | bash
 ```
 After installation, **Rise of Kingdoms** will appear in your application launcher.
 
 ## Usage
 
 ```bash
-bash rok_installer.sh [OPTION] [FILE]
+bash rok_installer.sh [OPTIONS]
 ```
 
-`--file [FILE]` — Path to the Rise of Kingdoms Windows installer `.exe`. Downloads Wine and DXVK, sets up a Wine prefix, runs the installer, and creates a desktop shortcut.
+`--file [FILE]` — (Optional) Path to a local Rise of Kingdoms Windows installer `.exe`. If omitted, the installer automatically fetches and downloads the latest binary from the official site.
 
 `--runner [NAME]` — Which Wine build to use: `soda` or `cachyos` (default). See [If RoK still freezes at 6%](#if-rok-still-freezes-at-6-or-shows-a-black-screen) below.
 
-`--help` — displays available option.
+`--help` — Displays available options.
 
 `--version` — Show script version.
 
-**Example:**
+**Examples:**
 ```bash
-bash rok_installer.sh --file ~/Downloads/rokpc_ff5a7e4128320b4b392ab0f84ab433ca.exe
+# Auto-download installer and run with default CachyOS runner
+bash rok_installer.sh
+
+# Auto-download installer with Soda runner
+bash rok_installer.sh --runner soda
+
+# Use a pre-downloaded local installer .exe
+bash rok_installer.sh --file ~/Downloads/rok_installer.exe
 ```
 
 ## Fixes: Rise of Kingdoms Stuck at 6% or Black Screen on Wine
@@ -51,7 +57,7 @@ The exact root cause is still being looked into, but it consistently occurs when
 ### If RoK still freezes at 6% or shows a black screen
 1. Try the other runner instead, in case your specific setup behaves better with it:
    ```bash
-   bash rok_installer.sh --file /path/to/rok_installer.exe --runner soda
+   bash rok_installer.sh --runner soda
    ```
    `cachyos` - spritz-wine-cachyos-wow64 [NelloKudo/spritz-wine](https://github.com/NelloKudo/spritz-wine) [default]
    

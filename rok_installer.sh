@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-for cmd in curl tar; do
+for cmd in curl tar grep; do
     command -v "$cmd" >/dev/null 2>&1 || { echo "ERROR: required command '$cmd' not found"; exit 1; }
 done
 
@@ -102,6 +102,24 @@ delete_temp(){
     echo "installation complete"
 }
 
+download_rok_installer(){
+    echo "Fetching Rise of Kingdoms installer URL..."
+    USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    ROK_DL_URL=$(curl -fsSL -A "$USER_AGENT" https://rok.lilith.com/ | grep -oP 'https://vda-global\.lilisi\.com/dl_pc/[^"]+' | head -1)
+    if [ -z "$ROK_DL_URL" ]; then
+        echo "ERROR: Failed to fetch Rise of Kingdoms installer URL" >&2
+        exit 1
+    fi
+    echo "Downloading Rise of Kingdoms installer..."
+    curl -w "\nDownload complete. Speed: %{speed_download} bytes/sec\n" -L -A "$USER_AGENT" -e "https://rok.lilith.com/" -o "$TEMP_FOLDER/rok_installer.exe" "$ROK_DL_URL"
+
+    if [ "$(head -c 2 "$TEMP_FOLDER/rok_installer.exe" 2>/dev/null)" != "MZ" ]; then
+        echo "ERROR: Downloaded file is not a valid Windows executable binary." >&2
+        exit 1
+    fi
+    ROK_EXE="$TEMP_FOLDER/rok_installer.exe"
+}
+
 RUNNER="cachyos"
 ACTION=""
 ROK_EXE=""
@@ -131,14 +149,24 @@ while [ $# -gt 0 ]; do
     esac
 done
 
+if [ -z "$ACTION" ]; then
+    ACTION="install"
+fi
+
 if [ "$ACTION" == "install" ];then
-    [ -f "$ROK_EXE" ] || { echo "ERROR: installer file not found: $ROK_EXE"; exit 1; }
+    if [ -n "$ROK_EXE" ]; then
+        [ -f "$ROK_EXE" ] || { echo "ERROR: installer file not found: $ROK_EXE"; exit 1; }
+    fi
 
     make_directories
 
     TEMP_FOLDER="$HOME/Games/RiseofKingdoms/temp"    
     WINE_PREFIX="$HOME/Games/RiseofKingdoms"
     WIN_BIN_FOLDER="$HOME/Games/RiseofKingdoms/wine_bin"
+
+    if [ -z "$ROK_EXE" ]; then
+        download_rok_installer
+    fi
 
     WINE_SOURCE_CACHYOS="https://raw.githubusercontent.com/an-anime-team/game-integrations/refs/heads/master/packages/components/wine/spritz-wine-cachyos.json"
     WINE_SOURCE_SODA="https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/refs/heads/main/wine/wine_soda.json"
@@ -190,21 +218,21 @@ if [ "$ACTION" == "install" ];then
 
     delete_temp
 elif [ "$ACTION" == "help" ];then
-    echo "Usage: bash rok_installer.sh --file [FILE] [--runner soda|cachyos]"
+    echo "Usage: bash rok_installer.sh [OPTIONS]"
     echo ""
-    echo "  --file [FILE]     Path to the Rise of Kingdoms Windows installer .exe"
-    echo "  --runner [NAME]   Wine build to use: soda or cachyos(default) "
+    echo "Options:"
+    echo "  --file [FILE]     Path to local Rise of Kingdoms Windows installer .exe (optional, auto-downloads if omitted)"
+    echo "  --runner [NAME]   Wine build to use: soda or cachyos (default)"
     echo "  --help            Show this help message"
     echo "  --version         Show script version"
     echo ""
-    echo "Example:"
-    echo "  bash rok_installer.sh --file ~/Downloads/rokpc_ff5a7e4128320b4b392ab0f84ab433ca.exe"
-    echo ""
-    echo "To use the older spritz-wine-cachyos-wow64 runner instead:"
-    echo "  bash rok_installer.sh --file ~/Downloads/rokpc_ff5a7e4128320b4b392ab0f84ab433ca.exe --runner cachyos"
+    echo "Examples:"
+    echo "  bash rok_installer.sh"
+    echo "  bash rok_installer.sh --runner soda"
+    echo "  bash rok_installer.sh --file ~/Downloads/rokpc_installer.exe"
 elif [ "$ACTION" == "version" ];then
     echo "v1.2"
 else
-    echo "Usage: bash rok_installer.sh --file /path/to/rok_installer.exe [--runner soda|cachyos]"
+    echo "Usage: bash rok_installer.sh [--file /path/to/rok_installer.exe] [--runner soda|cachyos]"
     echo "Run 'bash rok_installer.sh --help' for more information."
 fi
