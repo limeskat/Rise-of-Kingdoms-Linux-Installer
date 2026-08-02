@@ -9,17 +9,19 @@
   
 ## How to Install Rise of Kingdoms on Linux
  
-**Option 1 - Clone and run:**
+**Option 1 - Run directly:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/refs/heads/main/rok_installer.sh | bash
+```
+
+**Option 2 - Clone and run:**
 ```bash
 git clone https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer.git
 cd Rise-of-Kingdoms-Linux-Installer
 bash rok_installer.sh
 ```
  
-**Option 2 - Run directly:**
-```bash
-curl -fsSL https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/refs/heads/main/rok_installer.sh | bash
-```
+
 After installation, **Rise of Kingdoms** will appear in your application launcher.
 
 ## Usage
