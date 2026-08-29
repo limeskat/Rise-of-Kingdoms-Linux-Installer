@@ -20,7 +20,14 @@ git clone https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer.git
 cd Rise-of-Kingdoms-Linux-Installer
 bash rok_installer.sh
 ```
- 
+
+**Option 3 - Lutris:**
+```bash
+lutris -i lutris.yaml
+```
+*(Or in Lutris: click **+** → **Install from a local install script** → select `lutris.yaml`)*
+
+> **Note:** The Lutris installer relies on the Wine runner and DXVK managed by your Lutris installation. If you experience the 6% loading freeze, try switching the Wine runner in Lutris or try the bash script instead.
 
 After installation, **Rise of Kingdoms** will appear in your application launcher.
 

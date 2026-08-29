@@ -1,0 +1,40 @@
+name: Rise of Kingdoms
+game_slug: rise-of-kingdoms
+version: PC / Wine
+slug: rise-of-kingdoms-pc-wine
+runner: wine
+
+script:
+  game:
+    exe: drive_c/Program Files (x86)/Rise of Kingdoms/launcher.exe
+    prefix: $GAMEDIR
+    arch: win64
+  wine:
+    dxvk: true
+    overrides:
+      d3d8: native,builtin
+      d3d9: native,builtin
+      d3d10core: native,builtin
+      d3d11: native,builtin
+      dxgi: native,builtin
+  installer:
+    - task:
+        name: create_prefix
+        prefix: $GAMEDIR
+        arch: win64
+        description: Initializing 64-bit Wine prefix...
+    - execute:
+        description: Fetching and downloading latest Rise of Kingdoms installer...
+        command: |
+          USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+          ROK_DL_URL=$(curl -fsSL -A "$USER_AGENT" https://rok.lilith.com/ | grep -oP 'https://vda-global\.lilisi\.com/dl_pc/[^"]+' | head -1)
+          if [ -z "$ROK_DL_URL" ]; then
+            echo "ERROR: Failed to fetch Rise of Kingdoms installer URL" >&2
+            exit 1
+          fi
+          curl -fL -A "$USER_AGENT" -e "https://rok.lilith.com/" -o "$CACHE/rok_installer.exe" "$ROK_DL_URL"
+    - task:
+        name: wineexec
+        prefix: $GAMEDIR
+        executable: $CACHE/rok_installer.exe
+        description: Running Rise of Kingdoms setup installer...
