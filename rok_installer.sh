@@ -168,9 +168,9 @@ if [ "$ACTION" == "install" ];then
         download_rok_installer
     fi
 
-    WINE_SOURCE_CACHYOS="https://raw.githubusercontent.com/an-anime-team/game-integrations/refs/heads/master/packages/components/wine/spritz-wine-cachyos.json"
+    WINE_SOURCE_CACHYOS="https://raw.githubusercontent.com/an-anime-team/game-integrations/refs/heads/master/packages/components/v0/wine/spritz-wine-cachyos.json"
     WINE_SOURCE_SODA="https://raw.githubusercontent.com/limeskat/Rise-of-Kingdoms-Linux-Installer/refs/heads/main/wine/wine_soda.json"
-    DXVK_SOURCE="https://raw.githubusercontent.com/an-anime-team/game-integrations/refs/heads/master/packages/components/dxvk/dxvk.json"
+    DXVK_SOURCE="https://raw.githubusercontent.com/an-anime-team/game-integrations/refs/heads/master/packages/components/v0/dxvk/dxvk.json"
 
     case "$RUNNER" in
         cachyos)
