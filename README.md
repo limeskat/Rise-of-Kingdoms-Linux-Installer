@@ -75,6 +75,12 @@ The exact root cause is still being looked into, but it consistently occurs when
 2. If you are using NVIDIA + Wayland try switching to X11 [[more details](https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer/issues/1)]. On distros where switching to X11 is not supported (e.g., Nobara), using `--runner soda` has been reported to fix the issue [[Reddit reference](https://www.reddit.com/r/RiseofKingdoms/comments/1tm7pjy/comment/oss3dcw/)].
 3. If above solution does not work , please open an issue with your distro, desktop environment, session type (X11/Wayland), and GPU/driver.
 
+### Windowing & Fullscreen (Wayland / Tiling WMs)
+The game launches in windowed mode by default; fullscreen can be enabled directly in the in-game settings.
+
+If you are on a tiling compositor (such as Hyprland) or prefer running inside `gamescope`, see workaround in [Issue #3](https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer/issues/3).
+
+
 ## Compatibilty
  
 The script self-contains its Wine and DXVK dependencies inside the local prefix, it should function on any modern Linux distribution (including Ubuntu, Fedora, Debian, Mint, and Pop!_OS) as long as `curl` and `tar` are available.
