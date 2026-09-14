@@ -31,7 +31,7 @@ install_wine_prefix(){
     echo "Installing wine binaries"
     WINE_BIN_NAME=$(grep -m 1 'file' $WINE_JSON | grep -oE  '": ?"[^"]*"' | sed 's/": *"//; s/"$//')    
     tar -xf "$TEMP_FOLDER/$WINE_BIN_NAME" --strip-components=1 -C "$WIN_BIN_FOLDER"
-    WINEDEBUG=-all,-fixme,+err WINEPREFIX="$WINE_PREFIX" "$WIN_BIN_FOLDER"/bin/wineboot --init
+    WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=-all,-fixme,+err WINEPREFIX="$WINE_PREFIX" "$WIN_BIN_FOLDER"/bin/wineboot --init
     echo "wine prefix installed"
 }
 
@@ -54,6 +54,10 @@ install_dxvk(){
     for dll in d3d8 d3d9 d3d10core d3d11 dxgi; do
         WINEPREFIX="$WINE_PREFIX" $WINE_BIN reg add "HKEY_CURRENT_USER\Software\Wine\DllOverrides" \
             /v "$dll" /d "native,builtin" /f 2>/dev/null
+    done
+    for dll in mscoree mshtml; do
+        WINEPREFIX="$WINE_PREFIX" $WINE_BIN reg add "HKEY_CURRENT_USER\Software\Wine\DllOverrides" \
+            /v "$dll" /d "" /f 2>/dev/null
     done
     echo "DXVK installed"
 }

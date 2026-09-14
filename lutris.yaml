@@ -17,6 +17,8 @@ script:
       d3d10core: native,builtin
       d3d11: native,builtin
       dxgi: native,builtin
+      mscoree: ""
+      mshtml: ""
   installer:
     - task:
         name: create_prefix
