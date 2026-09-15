@@ -78,7 +78,12 @@ The exact root cause is still being looked into, but it consistently occurs when
 ### Windowing & Fullscreen (Wayland / Tiling WMs)
 The game launches in windowed mode by default; fullscreen can be enabled directly in the in-game settings.
 
-If you are on a tiling compositor (such as Hyprland) or prefer running inside `gamescope`, see workaround in [Issue #3](https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer/issues/3).
+If you encounter window flickering or a continuous resize loop on tiling compositors (e.g., Hyprland), try:
+- **Wine Virtual Desktop:** In `~/Games/RiseofKingdoms/launcher.sh`, update the last line to run inside a virtual desktop:
+  ```bash
+  WINEPREFIX="$WINE_PREFIX" "$WINE_BIN" explorer /desktop=RoK,1920x1080 "$LAUNCHER_LOC"
+  ```
+- **Gamescope:** For a full Gamescope wrapper (including hybrid NVIDIA/Intel configurations), refer to [Issue #3](https://github.com/limeskat/Rise-of-Kingdoms-Linux-Installer/issues/3).
 
 
 ## Compatibilty

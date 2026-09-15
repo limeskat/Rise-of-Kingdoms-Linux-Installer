@@ -79,12 +79,15 @@ find_launcher(){
 }
 
 make_launcher_script(){
-    touch launcher.sh
-    chmod +x launcher.sh
-    echo "#!/bin/bash" >> launcher.sh
-    echo "" >> launcher.sh
-    echo "WINEPREFIX=$WINE_PREFIX $WINE_BIN \"$LAUNCHER_LOC\"" >> launcher.sh
-    mv launcher.sh "$WINE_PREFIX"/
+    cat <<EOF > "$WINE_PREFIX/launcher.sh"
+#!/bin/bash
+WINE_PREFIX="$WINE_PREFIX"
+WINE_BIN="$WINE_BIN"
+LAUNCHER_LOC="$LAUNCHER_LOC"
+
+WINEPREFIX="\$WINE_PREFIX" "\$WINE_BIN" "\$LAUNCHER_LOC"
+EOF
+    chmod +x "$WINE_PREFIX/launcher.sh"
 }
 
 make_shortcuts(){
