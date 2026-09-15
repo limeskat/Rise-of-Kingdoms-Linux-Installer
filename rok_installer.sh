@@ -31,7 +31,7 @@ install_wine_prefix(){
     echo "Installing wine binaries"
     WINE_BIN_NAME=$(grep -m 1 'file' $WINE_JSON | grep -oE  '": ?"[^"]*"' | sed 's/": *"//; s/"$//')    
     tar -xf "$TEMP_FOLDER/$WINE_BIN_NAME" --strip-components=1 -C "$WIN_BIN_FOLDER"
-    WINEDEBUG=-all,-fixme,+err WINEPREFIX="$WINE_PREFIX" "$WIN_BIN_FOLDER"/bin/wineboot --init
+    WINEDLLOVERRIDES="mscoree,mshtml=" WINEDEBUG=-all,-fixme,+err WINEPREFIX="$WINE_PREFIX" "$WIN_BIN_FOLDER"/bin/wineboot --init
     echo "wine prefix installed"
 }
 
@@ -55,6 +55,10 @@ install_dxvk(){
         WINEPREFIX="$WINE_PREFIX" $WINE_BIN reg add "HKEY_CURRENT_USER\Software\Wine\DllOverrides" \
             /v "$dll" /d "native,builtin" /f 2>/dev/null
     done
+    for dll in mscoree mshtml; do
+        WINEPREFIX="$WINE_PREFIX" $WINE_BIN reg add "HKEY_CURRENT_USER\Software\Wine\DllOverrides" \
+            /v "$dll" /d "" /f 2>/dev/null
+    done
     echo "DXVK installed"
 }
 
@@ -75,12 +79,15 @@ find_launcher(){
 }
 
 make_launcher_script(){
-    touch launcher.sh
-    chmod +x launcher.sh
-    echo "#!/bin/bash" >> launcher.sh
-    echo "" >> launcher.sh
-    echo "WINEPREFIX=$WINE_PREFIX $WINE_BIN \"$LAUNCHER_LOC\"" >> launcher.sh
-    mv launcher.sh "$WINE_PREFIX"/
+    cat <<EOF > "$WINE_PREFIX/launcher.sh"
+#!/bin/bash
+WINE_PREFIX="$WINE_PREFIX"
+WINE_BIN="$WINE_BIN"
+LAUNCHER_LOC="$LAUNCHER_LOC"
+
+WINEPREFIX="\$WINE_PREFIX" "\$WINE_BIN" "\$LAUNCHER_LOC"
+EOF
+    chmod +x "$WINE_PREFIX/launcher.sh"
 }
 
 make_shortcuts(){
